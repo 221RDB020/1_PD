@@ -1,40 +1,36 @@
+class GameTreeNode:
+
+  def __init__(self, value):
+    self.value = value
+    self.children = []
+
+  def add_child(self, child_node):
+    self.children.append(child_node)
+
+  def get_children(self):
+    return self.children
+
+  def is_leaf(self):
+    return len(self.children) == 0
+
 class GameTree:
-  def __init__(self, current_number):
-    self.current_number = current_number
+
+  def __init__(self, root_value):
+    self.root = GameTreeNode(root_value)
+
+  def add_child_to_root(self, child_value):
+    child_node = GameTreeNode(child_value)
+    self.root.add_child(child_node)
 
 
-def generate_game_tree(current_number, max_depth, current_depth, score):
+def generate_game_tree(current_node, max_depth, current_depth):
   if current_depth >= max_depth:
     return
 
-  print("Depth:", current_depth)
-  print("Current Number:", current_number)
-  print("Current Score:", score)
-  print("")
+  possible_moves = [2, 3, 4]
 
-  next_numbers = [current_number * i for i in [2, 3, 4]]
-
-  for number in next_numbers:
-    new_number = number
-
-    generate_game_tree(new_number, max_depth, current_depth + 1, score + evaluate(current_number))
-
-def evaluate(current_number):
-    score = 0
-    game_bank = 0
-    if current_number % 2 == 0:
-        score -= 1
-    else:
-        score += 1
-
-    last_digit = str(current_number)[-1]
-
-    if last_digit == '0' or last_digit == '5':
-        game_bank += 1
-    
-    return score + (0.5 * game_bank)
-    
-
-choosed_number = 13
-max_depth = 5
-generate_game_tree(choosed_number, max_depth, 0, 0)
+  for move in possible_moves:
+    child_value = current_node.value * move
+    child_node = GameTreeNode(child_value)
+    current_node.add_child(child_node)
+    generate_game_tree(child_node, max_depth, current_depth + 1)
