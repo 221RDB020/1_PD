@@ -2,35 +2,30 @@ from copy import copy
 from config.constants import MOVES
 
 
-def minimax(position, depth, max_player, game):
-  if depth == 0:
-    return game.evaluate_game(), position
+def minimax(game, depth, maximizing_player):
+    if depth == 0 or game.winner() is not None:
+        return game.evaluate_moves(), None
 
-  if max_player:
-    maxEval = float('-inf')
-    best_move = None
-    for move in MOVES:
-      new_game = copy(game)
-      evaluation = minimax(move, depth - 1, False, new_game)[0]
-      maxEval = max(maxEval, int(evaluation))
-      if maxEval == evaluation:
-        best_move = move
-    #print ("bestmove: ",best_move, "max: ",maxEval)
-    return maxEval, best_move
-  else:
-    minEval = float('inf')
-    best_move = None
-    for move in MOVES:
-      new_game = copy(game)
-      evaluation = minimax(move, depth - 1, True, new_game)[0]
-      minEval = min(minEval, int(evaluation))
-      if minEval == evaluation:
-        best_move = move
-    #print ("bestmove: ",best_move, "min: ",minEval)
-    return minEval, best_move
+    if maximizing_player:
+        max_score = float('-inf')
+        best_move = None
+        for move in MOVES:
+            new_game = copy(game)
+            new_game.make_move(move)
+            score, _ = minimax(new_game, depth - 1, False)
+            max_score = max(max_score, score)
+            if max_score == score:
+                best_move = move
+        return max_score, best_move
+    else:
+        min_score = float('inf')
+        best_move = None
+        for move in MOVES:
+            new_game = copy(game)
+            new_game.make_move(move)
+            score, _ = minimax(new_game, depth - 1, True)
+            min_score = min(min_score, score)
+            if min_score == score:
+                best_move = move
+        return min_score, best_move
 
-
-# def animate_moves(game, playground, multiplier):
-#   playground.draw(game.win)
-#   pygame.draw.circle(game.win, (0, 255, 0), (piece.x, piece.y), 50, 5)
-#   pygame.display.update()
