@@ -5,7 +5,7 @@ from copy import copy
 
 def alphabeta(game, depth, alpha, beta, maximizing_player):
     if depth == 0:
-        return game.evaluate_game(), None
+        return game.evaluate_moves(), None
 
     if maximizing_player:
         max_score = -math.inf

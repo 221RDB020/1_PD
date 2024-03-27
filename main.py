@@ -107,7 +107,7 @@ def run_game(number, game_starter):
 
         if game.winner() not in [-1, 0, 1]:
             if game.turn == 'computer':
-                game.ai_move(game.get_state(), algorithm, 4)
+                game.ai_move(game.get_state(), algorithm, 5)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

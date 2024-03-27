@@ -54,9 +54,9 @@ class Game:
     def ai_move(self, state, algorithm, depth):
         self.state = state
         if algorithm == ALGORITHMS[0]:
-            score, best_move = minimax(self, depth, True if self.turn == 'computer' else False)
+            score, best_move = minimax(self, depth, True)
         else:
-            score, best_move = alphabeta(self, depth, -math.inf, math.inf, True if self.turn == 'computer' else False)
+            score, best_move = alphabeta(self, depth, -math.inf, math.inf, True)
         self.make_move(best_move)
 
     def winner(self):
@@ -84,6 +84,8 @@ class Game:
         f1 = -1 if int(self.number) % 2 == 0 else 1
         f2 = 1 if str(self.number)[-1] in ['0', '5'] else 0
         f4 = 0
+        f5 = 10 if self.score1 == self.score2 and int(self.number >= 1200) else 0
+        
         if self.turn == 'computer':
             f3 = self.score2 - self.score1
 
@@ -95,6 +97,6 @@ class Game:
             if self.score1 + self.bank > self.score2:
                 f4 = -9999 if int(self.number) >= 1200 else 0
 
-        score = f1 + f2 + f3 + f4
+        score = f1 + f2 + f3 + f4 + f5
         print(f"turn: {self.turn} score1: {self.score1} score2: {self.score2} number: {self.number} f1: {f1} f2: {f2} f3: {f3} f4: {f4} score: {score}")
         return score
