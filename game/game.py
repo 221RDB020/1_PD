@@ -33,7 +33,8 @@ class Game:
 
         self.bank += bank
         self.state = (self.number, self.score1, self.score2, self.bank, self.turn)
-        self.change_turn()
+        if int(self.number) <= 1200:
+            self.change_turn()
 
     def check_number(self):
         bank = 0

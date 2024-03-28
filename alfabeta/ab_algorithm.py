@@ -4,7 +4,7 @@ from copy import copy
 
 
 def alphabeta(game, depth, alpha, beta, maximizing_player):
-    if depth == 0:
+    if depth == 0 or game.winner() is not None:
         return game.evaluate_moves(), None
 
     if maximizing_player:
